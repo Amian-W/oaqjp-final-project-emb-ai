@@ -2,13 +2,11 @@
     detection to be executed over the Flask channel and deployed on
     localhost:5000.
 '''
-# Import Flask, render_template, request from the flask pramework package 
-# Import the sentiment_analyzer function from the package created
+
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
-import pprint
 
-#Initiate the flask app 
+
 app = Flask("Emotion Detection")
 
 @app.route("/")
@@ -31,7 +29,7 @@ def sent_detector():
     # Pass the text to the sentiment_analyzer function and store the response
     response = emotion_detector(text_to_analyze)
     dominant_emotion = response["dominant_emotion"]
-    if dominant_emotion == None:
+    if dominant_emotion is None:
         formatted_response = 'Invalid text! Please try again!'
     else:
         formatted_response = 'For the given statement, the system response is '
@@ -41,6 +39,4 @@ def sent_detector():
     return formatted_response
 
 if __name__ == "__main__":
-    '''This functions executes the flask app and deploys it on localhost:5000
-    '''
     app.run(host="0.0.0.0", port=5000)
