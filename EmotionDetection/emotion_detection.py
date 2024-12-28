@@ -17,19 +17,31 @@ def emotion_detector(text_to_analyse):
 
     #Convert the response text into a dictionary using the json library functions 
     formatted_response = json.loads(response.text)
+    # Manage blank entries
+    if text_to_analyse == "":
+        response.status_code == 400
+        emotions = {
+                "anger": None, 
+                "disgust": None, 
+                "fear": None, 
+                "joy": None, 
+                "sadness": None, 
+                "dominant_emotion":None
+                }
     
-    emotionPredictions = formatted_response["emotionPredictions"]
-    emotion_dict = emotionPredictions[0]
-    emotions = emotion_dict.get("emotion")
-    # Get the dominant value
-    dominant_value = max(emotions.values())
-    
-    # Get the dominant emotion
-    for key, value in emotions.items():
-        if value == dominant_value:
-            dominant_emotion = key
-    
-    # Append dominant emotion to emotions dict 
-    emotions["dominant_emotion"] = dominant_emotion
-    
+    else:
+        emotionPredictions = formatted_response["emotionPredictions"]
+        emotion_dict = emotionPredictions[0]
+        emotions = emotion_dict.get("emotion")
+        # Get the dominant value
+        dominant_value = max(emotions.values())
+        
+        # Get the dominant emotion
+        for key, value in emotions.items():
+            if value == dominant_value:
+                dominant_emotion = key
+        
+        # Append dominant emotion to emotions dict 
+        emotions["dominant_emotion"] = dominant_emotion
+        
     return emotions
